@@ -547,6 +547,7 @@ class WeatherApp {
     this.nextCityBtn = document.getElementById('next-city-btn');
 
     // Hero Section
+    this.heroCard = document.getElementById('hero-weather-card');
     this.currentCityName = document.getElementById('current-city-name');
     this.currentCountryName = document.getElementById('current-country-name');
     this.bookmarkBtn = document.getElementById('bookmark-city-btn');
@@ -718,6 +719,39 @@ class WeatherApp {
     this.hourlyNextBtn.addEventListener('click', () => {
       this.hourlyCardsContainer.scrollBy({ left: 280, behavior: 'smooth' });
     });
+
+    // Touch swipe gestures on Hero Card for mobile city navigation
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    if (this.heroCard) {
+      this.heroCard.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length > 0) {
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      this.heroCard.addEventListener('touchend', (e) => {
+        if (e.changedTouches && e.changedTouches.length > 0) {
+          const touchEndX = e.changedTouches[0].clientX;
+          const touchEndY = e.changedTouches[0].clientY;
+          const diffX = touchEndX - touchStartX;
+          const diffY = touchEndY - touchStartY;
+
+          // Check if horizontal swipe is significant (> 45px) and greater than vertical scroll
+          if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY) * 1.4) {
+            if (diffX < 0) {
+              // Swiped Left -> Next City
+              this.toggleNextCity();
+            } else {
+              // Swiped Right -> Previous City
+              this.togglePreviousCity();
+            }
+          }
+        }
+      }, { passive: true });
+    }
   }
 
   // ==========================================================================
