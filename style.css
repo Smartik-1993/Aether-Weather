@@ -1676,6 +1676,7 @@ html, body {
 @media (max-width: 1024px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
     gap: 20px;
   }
 
@@ -1684,6 +1685,7 @@ html, body {
   .hourly-forecast-section,
   .daily-forecast-section {
     grid-column: 1 / -1;
+    grid-row: auto;
   }
 
   .metrics-grid {
@@ -1704,6 +1706,21 @@ html, body {
 
 /* Mobile Devices (<= 768px) */
 @media (max-width: 768px) {
+  .dashboard-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .hero-weather-card,
+  .metrics-section,
+  .hourly-forecast-section,
+  .daily-forecast-section {
+    grid-column: auto;
+    grid-row: auto;
+    width: 100%;
+  }
+
   .label-desktop {
     display: none;
   }
